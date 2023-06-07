@@ -1,0 +1,97 @@
+2. Consider the employee database:
+Employee (employee_name, street, city,Id,Mobile no,)
+Works (employee_name, company_name, salary)
+Company (company_name, city)
+Manages (employee_name, manager_name).
+Give an expression in SQL for each of the following:Insert, Select, Update, Delete with operators, functions, and set operator
+
+CREATE TABLE Employee (
+  employee_name VARCHAR(100),
+  street VARCHAR(100),
+  city VARCHAR(100),
+  Id INT,
+  mobile_no VARCHAR(20)
+);
+
+CREATE TABLE Works (
+  employee_name VARCHAR(100),
+  company_name VARCHAR(100),
+  salary DECIMAL(10, 2)
+);
+
+CREATE TABLE Company (
+  company_name VARCHAR(100),
+  city VARCHAR(100)
+);
+
+CREATE TABLE Manages (
+  employee_name VARCHAR(100),
+  manager_name VARCHAR(100)
+);
+
+--------------------------------------------------------------------------------------------
+-- Inserting values into the Employee table
+INSERT INTO Employee (employee_name, street, city, Id, mobile_no)
+VALUES ('John Doe', '123 Main St', 'New York', 1, '123-456-7890');
+
+INSERT INTO Employee (employee_name, street, city, Id, mobile_no)
+VALUES ('Jane Smith', '456 Elm St', 'Los Angeles', 2, '987-654-3210');
+
+-- Inserting values into the Works table
+INSERT INTO Works (employee_name, company_name, salary)
+VALUES ('John Doe', 'Company A', 5000);
+
+INSERT INTO Works (employee_name, company_name, salary)
+VALUES ('Jane Smith', 'Company B', 6000);
+
+-- Inserting values into the Company table
+INSERT INTO Company (company_name, city)
+VALUES ('Company A', 'New York');
+
+INSERT INTO Company (company_name, city)
+VALUES ('Company B', 'Los Angeles');
+
+-- Inserting values into the Manages table
+INSERT INTO Manages (employee_name, manager_name)
+VALUES ('John Doe', 'Jane Smith');
+
+---------------------------------------------------------------------------------------------
+
+
+-- Select all employees from the Employee table
+SELECT * FROM Employee;
+
+-- Select employees and their corresponding company from the Works table
+SELECT E.employee_name, W.company_name
+FROM Employee E
+JOIN Works W ON E.employee_name = W.employee_name;
+
+-- Select employees and their managers from the Manages table
+SELECT E.employee_name, M.manager_name
+FROM Employee E
+JOIN Manages M ON E.employee_name = M.employee_name;
+
+
+-------------------------------------------------------------------------------------------------
+
+
+-- Insert a new employee into the Employee table
+INSERT INTO Employee (employee_name, street, city, Id, mobile_no)
+VALUES ('Sarah Johnson', '789 Oak St', 'Chicago', 3, '555-123-4567');
+
+
+-----------------------------------------------------------------------------------------------
+
+-- Update the salary of an employee in the Works table
+UPDATE Works
+SET salary = 7000
+WHERE employee_name = 'John Doe';
+
+
+------------------------------------------------------------------------------------------------------
+
+
+-- Delete an employee from the Employee table
+DELETE FROM Employee
+WHERE employee_name = 'Sarah Johnson';
+

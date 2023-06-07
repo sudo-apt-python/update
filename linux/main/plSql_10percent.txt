@@ -1,0 +1,33 @@
+DECLARE
+  CURSOR emp_cursor IS
+    SELECT employee_name, salary, age
+    FROM employees;
+  
+  emp_name employees.employee_name%TYPE;
+  emp_salary employees.salary%TYPE;
+  emp_age employees.age%TYPE;
+BEGIN
+  OPEN emp_cursor;
+  
+  LOOP
+    FETCH emp_cursor INTO emp_name, emp_salary, emp_age;
+    EXIT WHEN emp_cursor%NOTFOUND;
+    
+    -- Print employee name and salary
+    DBMS_OUTPUT.PUT_LINE('Employee: ' || emp_name || ', Salary: ' || emp_salary);
+    
+    IF emp_age > 60 THEN
+      -- Calculate salary increment of 10%
+      emp_salary := emp_salary + (emp_salary * 0.1);
+      DBMS_OUTPUT.PUT_LINE('Salary incremented by 10% for employee above 60 years.');
+      DBMS_OUTPUT.PUT_LINE('New Salary: ' || emp_salary);
+    END IF;
+  END LOOP;
+  
+  CLOSE emp_cursor;
+  
+EXCEPTION
+  WHEN OTHERS THEN
+    DBMS_OUTPUT.PUT_LINE('An error occurred: ' || SQLERRM);
+END;
+/

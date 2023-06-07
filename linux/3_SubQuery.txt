@@ -1,0 +1,94 @@
+3. Consider the employee database:
+Employee (employee_name, street, city,Id,Mobile no,)
+Works (employee_name, company_name, salary)
+Company (company_name, city)
+Manages (employee_name, manager_name).
+Give an expression in SQL for each of the following using SQL DML statements: Join, Sub-Query and View
+
+
+
+CREATE TABLE Employee (
+  employee_name VARCHAR(50),
+  street VARCHAR(50),
+  city VARCHAR(50),
+  Id INT,
+  Mobile_no VARCHAR(15)
+);
+
+CREATE TABLE Works (
+  employee_name VARCHAR(50),
+  company_name VARCHAR(50),
+  salary DECIMAL(10, 2)
+);
+
+CREATE TABLE Company (
+  company_name VARCHAR(50),
+  city VARCHAR(50)
+);
+
+CREATE TABLE Manages (
+  employee_name VARCHAR(50),
+  manager_name VARCHAR(50)
+);
+
+
+-----------------------------------------------------------------
+
+
+INSERT INTO Employee (employee_name, street, city, Id, Mobile_no)
+VALUES
+  ('John Doe', '123 Main St', 'New York', 1, '1234567890'),
+  ('Jane Smith', '456 Elm St', 'San Francisco', 2, '9876543210'),
+  ('Mike Johnson', '789 Oak St', 'Chicago', 3, '4561237890');
+
+INSERT INTO Works (employee_name, company_name, salary)
+VALUES
+  ('John Doe', 'Company A', 5000),
+  ('Jane Smith', 'Company B', 6000),
+  ('Mike Johnson', 'Company A', 5500);
+
+INSERT INTO Company (company_name, city)
+VALUES
+  ('Company A', 'New York'),
+  ('Company B', 'San Francisco');
+
+INSERT INTO Manages (employee_name, manager_name)
+VALUES
+  ('John Doe', 'Jane Smith'),
+  ('Mike Johnson', 'Jane Smith');
+
+
+-------------------------------------------------------------------------
+
+
+SELECT Employee.employee_name, Works.company_name, Works.salary
+FROM Employee
+JOIN Works ON Employee.employee_name = Works.employee_name
+WHERE Employee.city = 'New York';
+
+
+
+------------------------------------------------------------------------------
+
+
+
+SELECT employee_name, company_name, salary
+FROM Works
+WHERE company_name IN (
+  SELECT company_name
+  FROM Company
+  WHERE city = 'San Francisco'
+);
+
+
+
+--------------------------------------------------------------------------------
+
+
+
+CREATE VIEW EmployeeInfo AS
+SELECT Employee.employee_name, Employee.city, Works.company_name, Works.salary
+FROM Employee
+JOIN Works ON Employee.employee_name = Works.employee_name;
+
+SELECT * FROM EmployeeInfo;

@@ -1,0 +1,42 @@
+CREATE TABLE Student (
+    Roll_no INT,
+    Name VARCHAR(50),
+    Address VARCHAR(100),
+    Marks INT,
+    Grade VARCHAR(2),
+    Active CHAR(1)
+);
+
+INSERT INTO Student (Roll_no, Name, Address, Marks, Grade, Active)
+VALUES (1, 'John', '123 Main Street', 85, 'A', 'Y'), (2, 'Jane', '456 Elm Street', 65, 'B', 'Y');
+
+CREATE TRIGGER PreventDeleteActiveStudent
+BEFORE DELETE ON Student
+FOR EACH ROW
+BEGIN
+    IF :old.Active = 'Y' THEN
+        RAISE_APPLICATION_ERROR(-20001, 'Cannot delete an active student.');
+    END IF;
+END;
+
+CREATE TRIGGER UpdateRemainingStudentsGrade
+AFTER DELETE ON Student
+FOR EACH ROW
+BEGIN
+    UPDATE Student
+    SET Grade = 'C'
+    WHERE Roll_no IN (
+        SELECT Roll_no
+        FROM Student
+    );
+    
+    -- Commit the changes
+    COMMIT;
+END;
+
+
+DELETE FROM Student WHERE Roll_no = 1;
+
+
+DELETE FROM Student WHERE Roll_no = 2;
+

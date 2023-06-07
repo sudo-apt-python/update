@@ -1,0 +1,53 @@
+CREATE TABLE Employee (
+    employee_name VARCHAR(50),
+    street VARCHAR(100),
+    city VARCHAR(50),
+    Id INT,
+    Mobile_no VARCHAR(20),
+    PRIMARY KEY (employee_name)
+);
+
+CREATE TABLE Works (
+    employee_name VARCHAR(50),
+    company_name VARCHAR(50),
+    salary DECIMAL(10, 2),
+    PRIMARY KEY (employee_name, company_name),
+    FOREIGN KEY (employee_name) REFERENCES Employee(employee_name)
+);
+
+CREATE TABLE Company (
+    company_name VARCHAR(50),
+    city VARCHAR(50),
+    PRIMARY KEY (company_name)
+);
+
+CREATE TABLE Manages (
+    employee_name VARCHAR(50),
+    manager_name VARCHAR(50),
+    PRIMARY KEY (employee_name),
+    FOREIGN KEY (employee_name) REFERENCES Employee(employee_name),
+    FOREIGN KEY (manager_name) REFERENCES Employee(employee_name)
+);
+
+CREATE VIEW EmployeeView AS
+SELECT e.employee_name, e.street, e.city, e.Id, e.Mobile_no, w.company_name, w.salary, c.city AS company_city, m.manager_name
+FROM Employee e
+LEFT JOIN Works w ON e.employee_name = w.employee_name
+LEFT JOIN Company c ON w.company_name = c.company_name
+LEFT JOIN Manages m ON e.employee_name = m.employee_name;
+
+
+CREATE INDEX idx_employee_name ON Employee (employee_name);
+CREATE INDEX idx_company_name ON Company (company_name);
+
+
+CREATE SEQUENCE employee_id_seq START WITH 1 INCREMENT BY 1;
+
+CREATE SYNONYM emp FOR Employee;
+
+
+DROP TABLE Employee;
+DROP VIEW EmployeeView;
+
+
+COMMIT;

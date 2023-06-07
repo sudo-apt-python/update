@@ -1,0 +1,22 @@
+CREATE TABLE Student (
+    Roll_no INT,
+    Name VARCHAR(50),
+    Marks INT,
+    Remark VARCHAR(10)
+);
+INSERT INTO Student (Roll_no, Name, Marks, Remark) VALUES (1, 'John', 80, ''), (2,'Felix',60,''), (3,'Kai',40,''), (4,'Yeonjun',35,'');
+
+
+create procedure p1()
+begin
+  update Student
+  set Remark= case when Marks >= 40 then 'Pass' else 'Fail' end;
+
+
+
+call p1();
+
+
+UPDATE Student
+SET Remark = 'Pass'
+WHERE Roll_no = 2;

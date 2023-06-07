@@ -1,0 +1,28 @@
+DECLARE
+  age_threshold NUMBER := 30; -- Set the age threshold here
+
+  CURSOR emp_cursor IS
+    SELECT employee_name, salary
+    FROM employees
+    WHERE age > age_threshold;
+
+  emp_name employees.employee_name%TYPE;
+  emp_salary employees.salary%TYPE;
+BEGIN
+  OPEN emp_cursor;
+  
+  LOOP
+    FETCH emp_cursor INTO emp_name, emp_salary;
+    EXIT WHEN emp_cursor%NOTFOUND;
+    
+    -- Print employee name and salary
+    DBMS_OUTPUT.PUT_LINE('Employee: ' || emp_name || ', Salary: ' || emp_salary);
+  END LOOP;
+  
+  CLOSE emp_cursor;
+  
+EXCEPTION
+  WHEN OTHERS THEN
+    DBMS_OUTPUT.PUT_LINE('An error occurred: ' || SQLERRM);
+END;
+/

@@ -1,0 +1,47 @@
+create table employee (
+employeename varchar(20) primary key,
+street varchar(20),
+city varchar(20)
+);
+
+create table company(
+companyname varchar(50) primary key,
+city varchar(20)
+);
+
+create table works(
+employeename varchar(20),
+companyname varchar(50),
+salary double,
+primary key (employeename,companyname),
+foreign key (employeename) references employee(employeename),
+foreign key (companyname) references company(companyname)
+);
+
+create table manages(
+employeename varchar(20),
+managername varchar(20),
+primary key (employeename,managername),
+foreign key (employeename) references employee(employeename),
+foreign key (managername) references employee(employeename)
+);
+insert into employee values ("Neha","A street","A city"),("Reesha","B street","B city"),("Ritika","C street","C city"),("Ritu","C street","C city"),("Ryan","A street","A city"),("Kelly","B street","B city");
+insert into company values ("First Bank Corporation","A city"),("Small Bank Corporation","B city"),("No Bank Corporation","C city"),("Yes Bank Corporation","A city"),("More Bank Corporation","B city");
+insert into works values ("Neha","First Bank Corporation",40000),("Reesha","Small Bank Corporation",30000),("Ritika","No Bank Corporation",35000),("Ritu","Small Bank Corporation",25000),("Ryan","First Bank Corporation",15000),("Kelly","First Bank Corporation",10000);
+insert into manages values ("Neha","Ryan"),("Neha","Kelly"),("Reesha","Ritu");
+
+select e.employeename
+from employee e, works w
+where e.employeename=w.employeename 
+and companyname="First Bank Corporation";
+
+select e.employeename,e.city
+from employee e, works w
+where e.employeename=w.employeename 
+and companyname="First Bank Corporation";
+
+select e.employeename,e.street,e.city
+from employee e, works w
+where e.employeename=w.employeename 
+and companyname="First Bank Corporation"
+and salary>10000;

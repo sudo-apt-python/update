@@ -1,0 +1,48 @@
+
+CREATE TABLE Employee (
+  emp_no INT PRIMARY KEY,
+  name VARCHAR(100),
+  skill VARCHAR(100),
+  pay_rate DECIMAL(10, 2)
+);
+CREATE TABLE Position (
+  posting_no INT PRIMARY KEY,
+  skill VARCHAR(100)
+);
+CREATE TABLE Duty_allocation (
+  posting_no INT,
+  emp_no INT,
+  day VARCHAR(50),
+  shift VARCHAR(50),
+  FOREIGN KEY (posting_no) REFERENCES Position(posting_no),
+  FOREIGN KEY (emp_no) REFERENCES Employee(emp_no)
+);
+INSERT INTO Employee (emp_no, name, skill, pay_rate)
+VALUES
+  (123463, 'XYZ', 'Programming', 20.0),
+  (123461, 'Jane Smith', 'Design', 18.0),
+  (123462, 'Bob Johnson', 'Management', 25.0);
+
+INSERT INTO Position (posting_no, skill)
+VALUES
+  (1, 'Programming'),
+  (2, 'Design'),
+  (3, 'Management');
+
+INSERT INTO Duty_allocation (posting_no, emp_no, day, shift)
+VALUES
+  (1, 123463, '19860401', 'Morning'),
+  (2, 123461, '19860508', 'Afternoon'),
+  (3, 123462, '19860405', 'Night');
+  
+  
+SELECT *FROM Duty_allocation;
+  
+SELECT posting_no, day, shift FROM Duty_allocation
+WHERE emp_no=123461 AND day >='19860401' AND day <='19860430'
+SELECT posting_no, day, shift FROM Duty_allocation,Employee
+WHERE  Duty_allocation.emp_no=Employee.emp_no
+AND name='XYZ'
+
+
+
