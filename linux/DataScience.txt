@@ -1,0 +1,212 @@
+
+CREATE VIEW view_name AS
+SELECT column1, column2, ...
+FROM table_name
+WHERE condition;
+
+example:
+CREATE VIEW [Brazil Customers] AS
+SELECT CustomerName, ContactName
+FROM Customers
+WHERE Country = 'Brazil';
+SELECT * FROM [Brazil Customers];
+
+CREATE INDEX index_name
+ON table_name (column1, column2, ...);
+
+CREATE UNIQUE INDEX index_name
+ON table_name (column1, column2, ...);
+
+ALTER TABLE table_name
+DROP INDEX index_name;
+
+CREATE SEQUENCE sequence_1
+start with 1
+increment by 1
+minvalue 0
+maxvalue 100
+cycle;
+
+COMMIT;
+
+DROP TABLE table_name;
+
+----------------------------------------------------------------------------------------------------------
+
+create database employeeDB;
+
+use employeeDB;
+
+create table empTable(
+id int primary key,
+emp_name varchar(25),
+city varchar(25),
+street varchar(25),
+mob varchar(25)
+);
+
+insert into empTable (id,emp_name,city,street,mob) values (1,"abc", "mumbai", "X12" , "7845153623");
+
+select * from tableName;
+
+update tableName 
+set columnName="A54" where id=3;
+select * from tableName;
+
+select count(*) from empTable;
+select sum(salary) from workTable;
+select count(columnName) from empTable;
+select sum(columnName) from workTable;
+
+delete from tableName where id=3;
+
+----------------------------------------------------------------------------------------------------------
+
+SELECT column_name(s)
+FROM table1
+INNER JOIN table2
+ON table1.column_name = table2.column_name;
+
+JOIN Three Tables:
+SELECT Orders.OrderID, Customers.CustomerName, Shippers.ShipperName
+FROM ((Orders
+INNER JOIN Customers ON Orders.CustomerID = Customers.CustomerID)
+INNER JOIN Shippers ON Orders.ShipperID = Shippers.ShipperID);
+
+SELECT column_name(s)
+FROM table1
+LEFT JOIN table2
+ON table1.column_name = table2.column_name;
+
+SELECT column_name(s)
+FROM table1
+RIGHT JOIN table2
+ON table1.column_name = table2.column_name;
+
+SELECT column_name(s)
+FROM table1
+FULL OUTER JOIN table2
+ON table1.column_name = table2.column_name;
+
+Select NAME, LOCATION, PHONE_NUMBER from DATABASE 
+WHERE ROLL_NO IN
+(SELECT ROLL_NO from STUDENT where SECTION=’A’);
+
+----------------------------------------------------------------------------------------------------------
+
+CREATE TABLE Student (
+    Roll_no INT,
+    Name VARCHAR(50),
+    Address VARCHAR(100),
+    Marks INT,
+    Grade VARCHAR(2),
+    Active CHAR(1)
+);
+
+INSERT INTO Student (Roll_no, Name, Address, Marks, Grade, Active)
+VALUES (1, 'John', '123 Main Street', 85, 'A', 'Y');
+
+INSERT INTO Student (Roll_no, Name, Address, Marks, Grade, Active)
+VALUES (2, 'Jane', '456 Elm Street', 65, 'B', 'Y');
+
+CREATE OR REPLACE TRIGGER PreventDeleteActiveStudent
+BEFORE DELETE ON Student
+FOR EACH ROW
+BEGIN
+    IF :old.Active = 'Y' THEN
+        RAISE_APPLICATION_ERROR(-20001, 'Cannot delete an active student.');
+    END IF;
+END;
+/
+
+CREATE OR REPLACE TRIGGER UpdateRemainingStudentsGrade
+AFTER DELETE ON Student
+FOR EACH ROW
+BEGIN
+    UPDATE Student
+    SET Grade = 'C'
+    WHERE Roll_no IN (
+        SELECT Roll_no
+        FROM Student
+    );
+    
+    -- Commit the changes
+    COMMIT;
+END;
+/
+
+DELETE FROM Student WHERE Roll_no = 1;
+
+DELETE FROM Student WHERE Roll_no = 2;
+
+
+----------------------------------------------------------------------------------------------------------
+
+MongoDB CRUD Operations:
+
+db.students.insertOne({
+  name: "John Doe",
+  age: 25,
+  grade: "A"
+});
+
+
+db.students.find();
+db.students.find({ age: { $gt: 20 } });
+db.students.findOne({ name: "John Doe" });
+
+
+db.students.updateOne(
+  { name: "John Doe" },
+  { $set: { grade: "B" } }
+);
+
+
+db.students.updateMany(
+  { age: { $gt: 20 } },
+  { $inc: { age: 1 } }
+);
+db.students.deleteOne({ name: "John Doe" });
+db.students.deleteMany({ age: { $lt: 20 } });
+
+----------------------------------------------------------------------------------------------------------
+
+SELECT column_name(s)
+FROM table_name
+WHERE condition
+GROUP BY column_name(s)
+ORDER BY column_name(s);
+
+SELECT DISTINCT column1, column2, ...
+FROM table_name;
+
+SELECT MIN(column_name)
+FROM table_name
+WHERE condition;
+
+SELECT MAX(column_name)
+FROM table_name
+WHERE condition;
+
+SELECT AVG(column_name)
+FROM table_name
+WHERE condition;
+
+ALTER TABLE Customers
+DROP COLUMN ContactName;
+
+ALTER TABLE Customers
+ADD COLUMN ContactName;
+
+SELECT City FROM Customers
+UNION
+SELECT City FROM Suppliers
+ORDER BY City;
+
+SELECT City FROM Customers
+UNION ALL
+SELECT City FROM Suppliers
+ORDER BY City;
+
+
+----------------------------------------------------------------------------------------------------------

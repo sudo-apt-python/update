@@ -1,0 +1,60 @@
+1. Consider the employee database:
+Employee (employee_name, street, city,Id,Mobile no,)
+Works (employee_name, company_name, salary)
+Company (company_name, city)
+Manages (employee_name, manager_name).
+Give an expression in SQL for each of the following: Table, View, Index, Sequence, Synonym, Drop, commit 
+
+
+CREATE TABLE Employee (
+    employee_name VARCHAR(50),
+    street VARCHAR(100),
+    city VARCHAR(50),
+    Id INT AUTO_INCREMENT PRIMARY KEY,
+    Mobile_no VARCHAR(20)
+);
+
+
+
+----------------------------------------------------------------------------
+
+
+
+INSERT INTO Employee (employee_name, street, city, Mobile_no)
+VALUES
+    ('John Doe', '123 Main Street', 'New York', '555-1234'),
+    ('Jane Smith', '456 Elm Street', 'Los Angeles', '555-5678');
+
+
+--------------------------------------------------------------------------------------
+
+
+CREATE VIEW EmployeeView AS
+SELECT employee_name, street, city
+FROM Employee;
+
+
+-------------------------------------------------------------------------------------
+
+
+CREATE INDEX idx_employee_name ON Employee (employee_name);
+
+
+------------------------------------------------------------------------------------------
+
+CREATE SEQUENCE EmployeeIdSeq
+    START WITH 1
+    INCREMENT BY 1;
+
+------------------------------------------------------------------------------------------
+
+CREATE SYNONYM Emp FOR Employee;
+
+
+------------------------------------------------------------------------------------------
+
+DROP TABLE Employee;
+
+----------------------------------------------------------------------------------------------
+
+COMMIT;
