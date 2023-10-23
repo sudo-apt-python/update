@@ -10,7 +10,7 @@ def dns_lookup(url):
     except socket.gaierror:
         return "Unable to resolve URL to an IP address"
 
-if _name_ == "_main_":
+if __name__ == "__main__":
     url = input("Enter a URL (e.g., www.example.com): ")
     ip_address = dns_lookup(url)
     print(f"URL: {url}")
